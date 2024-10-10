@@ -5,6 +5,7 @@ let currentQuestionIndex = 0;
 document.addEventListener('DOMContentLoaded', () => {
     fetchQuestions();
     document.getElementById('submit-button').addEventListener('click', calculateScore);
+    document.getElementById('next-button').addEventListener('click', nextQuestion); // P668f
 });
 
 function fetchQuestions() {
@@ -43,6 +44,27 @@ function displayQuestion() {
 
     questionContainer.appendChild(questionElement);
     updateProgressBar();
+
+    const nextButton = document.getElementById('next-button'); // P8144
+    nextButton.disabled = true; // P7aa8
+
+    const radioButtons = document.querySelectorAll(`input[name="question${question.id}"]`);
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', () => {
+            nextButton.disabled = false; // P7aa8
+        });
+    });
+
+    if (currentQuestionIndex === questions.length - 1) {
+        nextButton.style.display = 'none'; // P996d
+    } else {
+        nextButton.style.display = 'block'; // P996d
+    }
+}
+
+function nextQuestion() { // P16a2
+    currentQuestionIndex++;
+    displayQuestion();
 }
 
 function updateProgressBar() {
