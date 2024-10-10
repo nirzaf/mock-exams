@@ -16,6 +16,7 @@ Track user's answers.
 Calculate and display the final score
 Sample JSON file structure 
 
+```JSON
 {
   "examName": "AZ-204 Mock Exam",
   "questions": [
@@ -62,3 +63,4 @@ Sample JSON file structure 
      // ... more questions
   ]
 }
+```
