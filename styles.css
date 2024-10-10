@@ -1,9 +1,18 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 body.dark-mode {
@@ -56,6 +65,7 @@ main {
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1 0 auto;
 }
 
 .exam-container {
@@ -148,11 +158,12 @@ body.dark-mode .score-container {
 }
 
 footer {
+    flex-shrink: 0;
     background-color: #0078d4;
     color: white;
     text-align: center;
     padding: 1rem;
-    margin-top: 2rem;
+    margin-top: auto; /* Changed from margin-top: 2rem; */
 }
 
 .restart-button {
@@ -182,4 +193,76 @@ nav ul li button.nav-button {
 
 nav ul li button.nav-button:hover {
     background-color: #005a9e;
+}
+
+/* Media Queries for Responsiveness */
+
+/* Tablet view */
+@media (min-width: 768px) and (max-width: 1024px) {
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .exam-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .exam-info {
+        align-items: flex-start;
+    }
+
+    .exam-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Mobile view */
+@media (max-width: 767px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul li {
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .exam-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .exam-info {
+        align-items: flex-start;
+    }
+
+    .exam-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .exam-container {
+        padding: 1rem;
+    }
+
+    .score-container {
+        padding: 1rem;
+    }
+
+    footer {
+        padding: 0.5rem;
+    }
 }

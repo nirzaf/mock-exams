@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('restart-button-nav').addEventListener('click', restartExam);
     loadUserAnswers();
     startTime = new Date();
+    setCurrentYear();
 });
 
 function fetchQuestions() {
@@ -211,4 +212,9 @@ function restartExam() {
     fetchQuestions();
     document.querySelector('.exam-container').classList.remove('hidden');
     document.getElementById('score-container').classList.add('hidden');
+}
+
+function setCurrentYear() {
+    const currentYear = new Date().getFullYear();
+    document.getElementById('current-year').textContent = currentYear;
 }
