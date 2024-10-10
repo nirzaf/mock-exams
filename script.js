@@ -1,11 +1,11 @@
 let questions = [];
-let userAnswers = [];
 let currentQuestionIndex = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchQuestions();
     document.getElementById('submit-button').addEventListener('click', calculateScore);
-    document.getElementById('next-button').addEventListener('click', nextQuestion); // P668f
+    document.getElementById('next-button').addEventListener('click', nextQuestion);
+    loadUserAnswers();
 });
 
 function fetchQuestions() {
@@ -36,7 +36,7 @@ function displayQuestion() {
         const answerElement = document.createElement('label');
         answerElement.classList.add('answer');
         answerElement.innerHTML = `
-            <input type="radio" name="question${question.id}" value="${index}">
+            <input type="radio" name="question${question.id}" value="${index}" ${isAnswerSelected(question.id, index) ? 'checked' : ''}>
             ${answer.text}
         `;
         questionElement.appendChild(answerElement);
@@ -45,24 +45,25 @@ function displayQuestion() {
     questionContainer.appendChild(questionElement);
     updateProgressBar();
 
-    const nextButton = document.getElementById('next-button'); // P8144
-    nextButton.disabled = true; // P7aa8
+    const nextButton = document.getElementById('next-button');
+    nextButton.disabled = true;
 
     const radioButtons = document.querySelectorAll(`input[name="question${question.id}"]`);
     radioButtons.forEach(radio => {
         radio.addEventListener('change', () => {
-            nextButton.disabled = false; // P7aa8
+            saveUserAnswer(question.id, radio.value);
+            nextButton.disabled = false;
         });
     });
 
     if (currentQuestionIndex === questions.length - 1) {
-        nextButton.style.display = 'none'; // P996d
+        nextButton.style.display = 'none';
     } else {
-        nextButton.style.display = 'block'; // P996d
+        nextButton.style.display = 'block';
     }
 }
 
-function nextQuestion() { // P16a2
+function nextQuestion() {
     currentQuestionIndex++;
     displayQuestion();
 }
@@ -75,10 +76,11 @@ function updateProgressBar() {
 
 function calculateScore() {
     let score = 0;
+    const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
 
     questions.forEach((question, questionIndex) => {
-        const selectedAnswerIndex = document.querySelector(`input[name="question${question.id}"]:checked`);
-        if (selectedAnswerIndex && question.answers[selectedAnswerIndex.value].isCorrect) {
+        const selectedAnswerIndex = userAnswers[question.id];
+        if (selectedAnswerIndex !== undefined && question.answers[selectedAnswerIndex].isCorrect) {
             score++;
         }
     });
@@ -92,4 +94,20 @@ function shuffleArray(array) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+}
+
+function saveUserAnswer(questionId, answerIndex) {
+    const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
+    userAnswers[questionId] = answerIndex;
+    localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+}
+
+function loadUserAnswers() {
+    const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
+    currentQuestionIndex = Object.keys(userAnswers).length;
+}
+
+function isAnswerSelected(questionId, answerIndex) {
+    const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
+    return userAnswers[questionId] == answerIndex;
 }
