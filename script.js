@@ -1,5 +1,7 @@
 let questions = [];
 let currentQuestionIndex = 0;
+let startTime;
+let endTime;
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchQuestions();
@@ -7,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('next-button').addEventListener('click', nextQuestion);
     document.getElementById('prev-button').addEventListener('click', previousQuestion);
     document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+    document.getElementById('restart-button').addEventListener('click', restartExam);
+    document.getElementById('restart-button-nav').addEventListener('click', restartExam);
     loadUserAnswers();
+    startTime = new Date();
 });
 
 function fetchQuestions() {
@@ -95,17 +100,34 @@ function updateTimeRemaining() {
 
 function calculateScore() {
     let score = 0;
+    let totalAnswered = 0;
     const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
 
     questions.forEach((question, questionIndex) => {
         const selectedAnswerIndex = userAnswers[question.id];
-        if (selectedAnswerIndex !== undefined && question.answers[selectedAnswerIndex].isCorrect) {
-            score++;
+        if (selectedAnswerIndex !== undefined) {
+            totalAnswered++;
+            if (question.answers[selectedAnswerIndex].isCorrect) {
+                score++;
+            }
         }
     });
 
+    endTime = new Date();
+    const timeSpent = Math.floor((endTime - startTime) / 1000); // in seconds
+
     const finalScore = (score / questions.length) * 100;
-    document.getElementById('final-score').innerText = `Your score: ${finalScore.toFixed(2)}%`;
+    const summaryReport = `
+        <h3>Summary Report</h3>
+        <p>Total questions: ${questions.length}</p>
+        <p>Questions completed: ${totalAnswered}</p>
+        <p>Correct answers: ${score}</p>
+        <p>Wrong answers: ${totalAnswered - score}</p>
+        <p>Total time spent: ${formatTime(timeSpent)}</p>
+        <p>Your score: ${finalScore.toFixed(2)}%</p>
+    `;
+
+    document.getElementById('final-score').innerHTML = summaryReport;
 
     document.querySelector('.exam-container').classList.add('hidden');
     document.getElementById('score-container').classList.remove('hidden');
@@ -173,4 +195,20 @@ function loadUserAnswers() {
 function isAnswerSelected(questionId, answerIndex) {
     const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || {};
     return userAnswers[questionId] == answerIndex;
+}
+
+function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function restartExam() {
+    localStorage.removeItem('userAnswers');
+    currentQuestionIndex = 0;
+    startTime = new Date();
+    fetchQuestions();
+    document.querySelector('.exam-container').classList.remove('hidden');
+    document.getElementById('score-container').classList.add('hidden');
 }

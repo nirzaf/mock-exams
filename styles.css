@@ -154,3 +154,32 @@ footer {
     padding: 1rem;
     margin-top: 2rem;
 }
+
+.restart-button {
+    background-color: #0078d4;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+}
+
+.restart-button:hover {
+    background-color: #005a9e;
+}
+
+nav ul li button.nav-button {
+    background-color: #0078d4;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+nav ul li button.nav-button:hover {
+    background-color: #005a9e;
+}
