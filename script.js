@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchQuestions();
     document.getElementById('submit-button').addEventListener('click', calculateScore);
     document.getElementById('next-button').addEventListener('click', nextQuestion);
+    document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
     loadUserAnswers();
 });
 
@@ -87,6 +88,46 @@ function calculateScore() {
 
     const finalScore = (score / questions.length) * 100;
     document.getElementById('final-score').innerText = `Your score: ${finalScore.toFixed(2)}%`;
+
+    showAnswers(userAnswers);
+}
+
+function showAnswers(userAnswers) {
+    const questionContainer = document.getElementById('question-container');
+    questionContainer.innerHTML = '';
+
+    questions.forEach((question, questionIndex) => {
+        const questionElement = document.createElement('div');
+        questionElement.classList.add('question');
+        questionElement.innerHTML = `<p>${question.questionText}</p>`;
+
+        question.answers.forEach((answer, index) => {
+            const answerElement = document.createElement('label');
+            answerElement.classList.add('answer');
+            const radioButton = document.createElement('input');
+            radioButton.type = 'radio';
+            radioButton.name = `question${question.id}`;
+            radioButton.value = index;
+            radioButton.disabled = true;
+            radioButton.checked = userAnswers[question.id] == index;
+
+            if (answer.isCorrect) {
+                radioButton.style.accentColor = 'green';
+                radioButton.style.outline = '2px solid green';
+                radioButton.style.outlineOffset = '2px';
+            }
+
+            answerElement.appendChild(radioButton);
+            answerElement.appendChild(document.createTextNode(` ${answer.text}`));
+            questionElement.appendChild(answerElement);
+        });
+
+        questionContainer.appendChild(questionElement);
+    });
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
 }
 
 function shuffleArray(array) {
