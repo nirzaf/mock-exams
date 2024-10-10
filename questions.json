@@ -1402,7 +1402,7 @@
     },
     {
       "id": "66",
-      "questionText": "A company is planning on using the Azure CDN service to distribute static images. Below is a set of steps in a random order which would be followed by the CDN service. Which of the following is the correct process of how the Content Delivery service would distribute the images?",
+      "questionText": "A company is planning on using the Azure CDN service to distribute static images. Below is a set of steps in a random order which would be followed by the CDN service. Which of the following is the correct process of how the Content Delivery service would distribute the images?\n\nProcess:\n1. A user requests content from the CDN endpoint.\n2. The CDN checks if the content is cached at the nearest Point of Presence (POP).\n3. If the content is not cached, the CDN retrieves it from the origin server.\n4. The CDN caches the content at the POP.\n5. The content is delivered to the user.\n6. Subsequent requests for the same content are served from the POP cache.",
       "answers": [
         {
           "text": "3,2,1,4",

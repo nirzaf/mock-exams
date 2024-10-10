@@ -9,24 +9,48 @@
 </head>
 <body>
     <header>
-        <h1>AZ-204 Mock Exam</h1>
-        <button id="dark-mode-toggle" class="dark-mode-toggle">
-            <i class="fas fa-moon"></i>
-        </button>
+        <nav>
+            <div class="logo">AZ-204 Mock Exam</div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Exams</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
     </header>
     <main>
-        <section id="question-container">
-            <!-- Questions will be dynamically inserted here -->
-        </section>
-        <button id="next-button">Next</button>
-        <section id="progress-container">
-            <progress id="progress-bar" value="0" max="100"></progress>
-        </section>
-        <section id="score-container">
+        <div class="exam-container">
+            <div class="exam-header">
+                <h1>AZ-204 Mock Exam</h1>
+                <div class="exam-info">
+                    <span id="question-number">Question 1 of 100</span>
+                    <span id="time-remaining">Time Remaining: 2:00:00</span>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <section id="question-container">
+                <!-- Questions will be dynamically inserted here -->
+            </section>
+            <div class="exam-footer">
+                <button id="prev-button" class="nav-button">Previous</button>
+                <button id="next-button" class="nav-button">Next</button>
+                <button id="submit-button" class="submit-button">Submit Exam</button>
+            </div>
+        </div>
+        <section id="score-container" class="score-container hidden">
+            <h2>Exam Results</h2>
             <p id="final-score"></p>
         </section>
-        <button id="submit-button">Submit Exam</button>
     </main>
+    <footer>
+        <p>&copy; 2023 AZ-204 Mock Exam. All rights reserved.</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>

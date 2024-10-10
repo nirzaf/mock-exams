@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchQuestions();
     document.getElementById('submit-button').addEventListener('click', calculateScore);
     document.getElementById('next-button').addEventListener('click', nextQuestion);
+    document.getElementById('prev-button').addEventListener('click', previousQuestion);
     document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
     loadUserAnswers();
 });
@@ -45,9 +46,13 @@ function displayQuestion() {
 
     questionContainer.appendChild(questionElement);
     updateProgressBar();
+    updateQuestionNumber();
+    updateTimeRemaining();
 
     const nextButton = document.getElementById('next-button');
-    nextButton.disabled = true;
+    const prevButton = document.getElementById('prev-button');
+    nextButton.disabled = currentQuestionIndex === questions.length - 1;
+    prevButton.disabled = currentQuestionIndex === 0;
 
     const radioButtons = document.querySelectorAll(`input[name="question${question.id}"]`);
     radioButtons.forEach(radio => {
@@ -56,12 +61,6 @@ function displayQuestion() {
             nextButton.disabled = false;
         });
     });
-
-    if (currentQuestionIndex === questions.length - 1) {
-        nextButton.style.display = 'none';
-    } else {
-        nextButton.style.display = 'block';
-    }
 }
 
 function nextQuestion() {
@@ -69,10 +68,30 @@ function nextQuestion() {
     displayQuestion();
 }
 
+function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        displayQuestion();
+    }
+}
+
 function updateProgressBar() {
     const progressBar = document.getElementById('progress-bar');
-    const progress = (currentQuestionIndex / questions.length) * 100;
-    progressBar.value = progress;
+    const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+}
+
+function updateQuestionNumber() {
+    const questionNumber = document.getElementById('question-number');
+    questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+}
+
+
+function updateTimeRemaining() {
+    // Implement a timer functionality here
+    // For now, we'll just display a static time
+    const timeRemaining = document.getElementById('time-remaining');
+    timeRemaining.textContent = 'Time Remaining: 2:00:00';
 }
 
 function calculateScore() {
@@ -88,6 +107,9 @@ function calculateScore() {
 
     const finalScore = (score / questions.length) * 100;
     document.getElementById('final-score').innerText = `Your score: ${finalScore.toFixed(2)}%`;
+
+    document.querySelector('.exam-container').classList.add('hidden');
+    document.getElementById('score-container').classList.remove('hidden');
 
     showAnswers(userAnswers);
 }
