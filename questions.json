@@ -16633,6 +16633,29 @@
         }
       ],
       "explanation": "The correct Azure CLI command to create a new resource group is 'az group create'."
+    },
+    {
+      "id": "724",
+      "questionText": "You need to create a container in a container group and mount an Azure file share as volume. Which code segment should you use?",
+      "answers": [
+        {
+          "text": "az container create -g MyResourceGroup --name myapp --image myimage:latest --command-line \"cat /mnt/azfile/myfile\" --azure-file-volume-share-name myshare --azure-file-volume-account-name mystorageaccount --azure-file-volume-account-key mystoragekey --azure-file-volume-mount-path /mnt/azfile",
+          "isCorrect": true
+        },
+        {
+          "text": "az container create -g MyResourceGroup --name myapp --image myimage:latest --command-line \"cat /mnt/azfile/myfile\" --azure-file-volume-share-name myshare --azure-file-volume-account-name mystorageaccount --azure-file-volume-account-key mystoragekey --secrets-mount-path /mnt/azfile",
+          "isCorrect": false
+        },
+        {
+          "text": "az container create --resource-group myResourceGroup --name myapp --image myimage:latest --command-line \"tail -f /dev/null\" --azure-file-volume-share-name myshare --azure-file-volume-account-name mystorageaccount --azure-file-volume-account-key storagekey --azure-file-volume-mount-path /mnt/azfile",
+          "isCorrect": false
+        },
+        {
+          "text": "az container create --resource-group myResourceGroup --name myapp --image myimage:latest --command-line \"tail -f /dev/null\"",
+          "isCorrect": false
+        }
+      ],
+      "explanation": "The correct segment includes all necessary parameters for mounting an Azure file share as a volume."
     }
   ]
 }
