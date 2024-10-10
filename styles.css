@@ -3,6 +3,12 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
 }
 
 header {
@@ -10,6 +16,18 @@ header {
     color: white;
     padding: 1rem;
     text-align: center;
+    position: relative;
+}
+
+.dark-mode-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 main {
@@ -24,6 +42,10 @@ main {
     padding: 1rem;
 }
 
+body.dark-mode #question-container {
+    background-color: #1e1e1e;
+}
+
 .question {
     margin-bottom: 1rem;
 }
@@ -31,6 +53,11 @@ main {
 .answer {
     display: block;
     margin-bottom: 0.5rem;
+}
+
+.answer input[type="radio"]:checked {
+    outline: 2px solid green;
+    outline-offset: 2px;
 }
 
 #progress-container {
@@ -48,6 +75,10 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     text-align: center;
+}
+
+body.dark-mode #score-container {
+    background-color: #1e1e1e;
 }
 
 #submit-button {
