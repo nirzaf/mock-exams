@@ -14,8 +14,8 @@ function fetchQuestions() {
     fetch('questions.json')
         .then(response => response.json())
         .then(data => {
-            questions = data.questions;
-            shuffleArray(questions);
+            const allQuestions = data.questions;
+            questions = shuffleArray(allQuestions).slice(0, 50);
             displayQuestion();
         })
         .catch(error => console.error('Error fetching questions:', error));
@@ -85,7 +85,6 @@ function updateQuestionNumber() {
     const questionNumber = document.getElementById('question-number');
     questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
 }
-
 
 function updateTimeRemaining() {
     // Implement a timer functionality here
@@ -157,6 +156,7 @@ function shuffleArray(array) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
 }
 
 function saveUserAnswer(questionId, answerIndex) {
